@@ -1,19 +1,22 @@
+import Todo from "../model/schema.js";
+
 export const welcome = (req, res) => {
     res.json({
-      data: "Hii this is Node js api key.....",
+      data: "Hii this is Node js api key.....",  //test api
     });
   };
 
-  export const Total=('/api/todos', async (req, res) => {
+  export const Total= async (req, res) => {
     try {
       const todos = await Todo.find();
       res.status(200).json(todos);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching todos', error });
     }
-  });
+  };
   
-  export const create=('/api/todos', async (req, res) => {
+  //Create a new todo
+  export const create=(async (req, res) => {
     try {
       const { task } = req.body;
       const newTodo = new Todo({ task });
@@ -25,7 +28,7 @@ export const welcome = (req, res) => {
   });
   
   // Update a todo
-  export const update= ('/api/todos/:id', async (req, res) => {
+  export const Update= async (req, res) => {
     try {
       const { id } = req.params;
       const { task, isCompleted } = req.body;
@@ -41,12 +44,13 @@ export const welcome = (req, res) => {
     } catch (error) {
       res.status(500).json({ message: 'Error updating todo', error });
     }
-  });
+  };
   
   // Delete a todo
-  export const Delete=('/api/todos/:id', async (req, res) => {
+  export const Delete=async (req, res) => {
     try {
       const { id } = req.params;
+      console.log("do not find")
       const deletedTodo = await Todo.findByIdAndDelete(id);
       if (!deletedTodo) {
         return res.status(404).json({ message: 'Todo not found' });
@@ -55,4 +59,4 @@ export const welcome = (req, res) => {
     } catch (error) {
       res.status(500).json({ message: 'Error deleting todo', error });
     }
-  });
+  };
